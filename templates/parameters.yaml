@@ -1,0 +1,24 @@
+Parameters:
+  - Name: AdminPassword
+    NoEcho: true
+    Type: String
+    Label: 管理员密码
+    AssociationProperty: ALIYUN::ECS::Instance::Password
+DockerComposeYaml: |-
+  services:
+    hello_world:
+      image: {{computenest::acrimage::nginx}}
+      ports:
+        - 80:80
+PreStartCommand: echo before start docker
+PostStartCommand: echo after start docker
+CommandTimeout: 300
+InstanceTypes:
+  - ecs.c6.large
+  - ecs.c6.xlarge
+  - ecs.c6.2xlarge
+Ports:
+  - 80
+Outputs:
+  - DisplayName: Endpoint
+    Expression: http://${Address}:80
