@@ -131,7 +131,7 @@ Resources:
       VpcId:
         Ref: VpcId
       SecurityGroupIngress:
-        - PortRange: 8080/8080
+        - PortRange: 80/80
           Priority: 1
           SourceCidrIp: 0.0.0.0/0
           IpProtocol: tcp
@@ -194,7 +194,11 @@ Resources:
 
             mkdir -p /home/admin/application
             cat >/home/admin/application/docker-compose.yaml<<EOF
-            
+            services:
+              hello_world:
+                image: {{computenest::acrimage::nginx}}
+                ports:
+                  - 80:80
             EOF
             
             cat > /etc/systemd/system/docker-compose-app.service <<EOF
@@ -217,12 +221,10 @@ Resources:
             
             systemctl enable docker-compose-app
 
-            #!/bin/bash
-            echo ${AdminPassword}
-            
+            echo before start docker
             systemctl start docker-compose-app
             sleep 10
-            
+            echo after start docker
             # 执行成功回调WaitCondition结束waitCondition的等待
             ${CurlCli} -d "{\"Data\" : \"Success\", \"status\" : \"SUCCESS\"}"
           - CurlCli:
@@ -230,10 +232,10 @@ Resources:
                 - WaitConditionHandle
                 - CurlCli
 Outputs: 
-  :
+  Endpoint:
     Value:
       Fn::Sub:
-        - https://${Address}:8080
+        - http://${Address}:80
         - Address:
             Fn::Select:
             - 0

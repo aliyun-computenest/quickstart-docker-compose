@@ -2,13 +2,11 @@ Service:
   RegionId: cn-hangzhou
   DeployType: ros
   DeployMetadata:
-    ServiceInstanceNameRule:
-      Prefix: si
     SupplierDeployMetadata:
       ArtifactRelation:
         'computenest::acrimage::nginx':
           ArtifactId: artifact-xxx
-          ArtifactVersion: draft
+          ArtifactVersion: 1
     TemplateConfigs:
       - Name: ECS单机版
         Url: 'templates/template.yaml'
@@ -18,6 +16,6 @@ Service:
     Locale: zh-CN
     ShortDescription: docker compose deploy
     Image: 'icons/service_logo.png'
-    Name: Docker compose部署单机版
+    Name: DockerCompose部署单机版
   ShareType: Public
   ApprovalType: Manual

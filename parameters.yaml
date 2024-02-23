@@ -2,15 +2,30 @@ ROSTemplateFormatVersion: '2015-09-01'
 # 定义参数
 Parameters:
   Parameters:
+    Label:
+      en: Customized service parameters
+      zh-cn: 自定义服务参数
+    Description:
+      en: Customized service parameters, can be referenced in command content。</br>Name is english name of parameter, cannot contain space or special characters</br>Label is parameter name user will see</br>Type is parameter type</br>AllowedValues are allowed parameter values, empty for no limit</br>NoEcho is option for hidding parameter value, such as password</br>AssociationProperty please refer to <a href='https://www.alibabacloud.com/help/en/ros/user-guide/associationproperty-and-associationpropertymetadata' target='_blank'>document</a>
+      zh-cn: 自定义的服务参数，可以在命令中引用参数。</br>AssociationProperty的含义请参考<a href='https://www.alibabacloud.com/help/zh/ros/user-guide/associationproperty-and-associationpropertymetadata' target='_blank'>官网文档</a>
     Type: Json
     AssociationProperty: List[Parameters]
     AssociationPropertyMetadata:
       Parameters:
         Name:
+          Label:
+            en: English Parameter Name
+            zh-cn: 英文参数名
           Type: String
         Label:
+          Label:
+            en: The parameter label for user
+            zh-cn: 用户见到的参数名
           Type: String
         Type:
+          Label:
+            en: Parameter Type 
+            zh-cn: 类型
           Type: String
           AllowedValues:
             - Integer
@@ -18,6 +33,9 @@ Parameters:
             - Boolean
             - Json
         AllowedValues:
+          Label:
+            en: Allowed values
+            zh-cn: 可选值
           Type: Json
           AssociationProperty: List
           AssociationPropertyMetadata:
@@ -25,6 +43,9 @@ Parameters:
           Default: Null
           Required: false
         NoEcho:
+          Label:
+            en: No Echo
+            zh-cn: 隐藏输入的参数值（敏感参数）
           Type: Boolean
           Default: false
           AllowedValues:
@@ -44,8 +65,11 @@ Parameters:
   DockerComposeYaml:
     Type: String
     Label:
-      en: artifact version
-      zh-cn: 部署物版本
+      en: Docker Compose Yaml
+      zh-cn: Docker Compose配置（Yaml）
+    Description:
+      en: Content of DockerCompose.yaml
+      zh-cn: DockerCompose.yaml的内容，请参考<a href='https://docs.docker.com/compose' target='_blank'>Docker官网文档</a>
     AssociationProperty: Code
     Default: |-
       services:
@@ -54,43 +78,75 @@ Parameters:
           ports:
             - 80:80
   PreStartCommand:
+    Label:
+      en: Command runs before docker compose starts
+      zh-cn: DockerCompose启动前执行的命令
     Type: String
     AssociationProperty: Code
     Default: |
       #!/bin/bash
-      echo ${AdminPassword}
+      # 在Docker Compose启动前执行此命令
+      echo "before docker compose starts"
   PostStartCommand:
+    Label:
+      en: Command runs after docker compose starts
+      zh-cn: DockerCompose启动后执行的命令
     Type: String
     AssociationProperty: Code
     Default: |
       #!/bin/bash
-      echo ${AdminPassword}
+      # 在Docker Compose启动后执行此命令
+      echo "after docker compose starts"
   CommandTimeout:
+    Label:
+      en: Timeout of total command in seconds
+      zh-cn: 总体命令超时时间（秒）
+    Description:
+      en: service instance fails to deploy when command timed out
+      zh-cn: 命令执行超时后服务实例部署会失败，包括前置命令、启动Docker Compose、后置命令的执行时间
     Type: Number
     Default: 300
-  DockerImageArtifactId:
-    Type: String
+  DockerImageArtifacts:
     Label:
-      en: artifact id
-      zh-cn: 部署物Id
-    AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactId
+      en: Docker Image Artifacts 
+      zh-cn: Docker镜像部署物配置
+    Type: Json
+    AssociationProperty: List[Parameters]
     AssociationPropertyMetadata:
-      IsSupplier: true
-      ArtifactType: AcrImage
-  DockerImageArtifactVersion:
-    Type: String
-    Label:
-      en: artifact version
-      zh-cn: 部署物版本
-    AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactIdVersion
-    AssociationPropertyMetadata:
-      IsSupplier: true
-      ArtifactId: ${DockerImageArtifactId}
+      Parameters:
+        Placeholder:
+          Label:
+            en: Artifact placeholder
+            zh-cn: 部署物占位符
+          Type: String
+        ArtifactId:
+          Type: String
+          Label:
+            en: Docker image artifact id
+            zh-cn: Docker镜像部署物Id
+          AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactId
+          AssociationPropertyMetadata:
+            IsSupplier: true
+            ArtifactType: AcrImage
+        ArtifactVersion:
+          Type: String
+          Label:
+            en: Docker image artifact version
+            zh-cn: Docker镜像部署物版本
+          AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactIdVersion
+          AssociationPropertyMetadata:
+            IsSupplier: true
+            ArtifactId: ${ArtifactId}
+    Default:
+    - Placeholder: computenest::acrimage::nginx
   Ports:
     Type: Json
     Label:
       en: security group ports
-      zh-cn: 安全组开放端口
+      zh-cn: 安全组入方向开放端口
+    Description:
+      en: access service from public IP and ports
+      zh-cn: 可以通过公网IP和端口访问服务
     AssociationProperty: List
     AssociationPropertyMetadata:
       Multiple: true
@@ -101,8 +157,11 @@ Parameters:
   InstanceTypes:
     Type: Json
     Label:
-      en: Ecs InstanceTypes
-      zh-cn: Ecs实例规格列表
+      en: ECS instance types
+      zh-cn: ECS实例规格列表
+    Description:
+      en: ECS instance types that user can choose
+      zh-cn: 用户可选的ECS实例规格范围
     AssociationProperty: ALIYUN::ECS::Instance::InstanceType
     AssociationPropertyMetadata:
       Multiple: true
@@ -111,13 +170,25 @@ Parameters:
       - ecs.c6.xlarge
       - ecs.c6.2xlarge
   Outputs:
+    Label:
+      en: Service outputs
+      zh-cn: 服务输出
+    Description:
+      en: Service outputs
+      zh-cn: 服务输出。输出值表达式中可以引用参数或Address，Address代表ECS实例的公网IP
     Type: Json
     AssociationProperty: List[Parameters]
     AssociationPropertyMetadata:
       Parameters:
         DisplayName:
+          Label:
+            en: Output name
+            zh-cn: 输出名称
           Type: String
         Expression:
+          Label:
+            en: Expression for output value
+            zh-cn: 输出值表达式
           Type: String
     Default:
     - DisplayName: Endpoint
@@ -127,10 +198,7 @@ Metadata:
     # 定义资源分组，创建服务实例时，同一分组的参数分布在一起
     ParameterGroups:
       - Parameters:
-          - Label: Docker镜像部署物
-            Items:
-              - DockerImageArtifactId
-              - DockerImageArtifactVersion
+          - DockerImageArtifacts
           - Parameters
           - DockerComposeYaml
           - PreStartCommand

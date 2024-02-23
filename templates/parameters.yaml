@@ -4,6 +4,10 @@ Parameters:
     Type: String
     Label: 管理员密码
     AssociationProperty: ALIYUN::ECS::Instance::Password
+DockerImageArtifacts:
+  - Placeholder: 'computenest::acrimage::nginx'
+    ArtifactId: artifact-xxx
+    ArtifactVersion: "1"
 DockerComposeYaml: |-
   services:
     hello_world:
