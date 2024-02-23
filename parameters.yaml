@@ -138,10 +138,10 @@ Parameters:
           Label:
             en: Docker image artifact version
             zh-cn: Docker镜像部署物版本
-          # AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactIdVersion
-          # AssociationPropertyMetadata:
-          #   IsSupplier: true
-          #   ArtifactId: ${ArtifactId}
+          AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactIdVersion
+          AssociationPropertyMetadata:
+            IsSupplier: true
+            ArtifactId: ${.ArtifactId}
     Default:
     - Placeholder: computenest::acrimage::nginx
   Ports:
