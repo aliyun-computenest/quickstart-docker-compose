@@ -195,10 +195,12 @@ Resources:
             mkdir -p /home/admin/application
             cat >/home/admin/application/docker-compose.yaml<<EOF
             services:
-              hello_world:
+              nginx:
                 image: {{computenest::acrimage::nginx}}
                 ports:
                   - 80:80
+                volumes:
+                  - /home/admin/application/nginx/logs:/var/log/nginx/
             EOF
             
             cat > /etc/systemd/system/docker-compose-app.service <<EOF
@@ -222,6 +224,7 @@ Resources:
             systemctl enable docker-compose-app
 
             echo before start docker
+            mkdir -p /home/admin/application/nginx/logs
             
             systemctl start docker-compose-app
             sleep 10

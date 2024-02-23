@@ -68,8 +68,8 @@ Parameters:
       en: Docker Compose Yaml
       zh-cn: Docker Compose配置（Yaml）
     Description:
-      en: Content of DockerCompose.yaml
-      zh-cn: DockerCompose.yaml的内容，请参考<a href='https://docs.docker.com/compose' target='_blank'>Docker官网文档</a>
+      en: Content of docker-compose.yaml
+      zh-cn: docker-compose.yaml的内容，请参考<a href='https://docs.docker.com/compose' target='_blank'>Docker官网文档</a>
     AssociationProperty: Code
     Default: |-
       # 单个nginx服务实例
@@ -81,6 +81,8 @@ Parameters:
           # 端口映射
           ports:
             - 80:80
+          volumes:
+            - /home/admin/application/nginx/logs:/var/log/nginx/
   PreStartCommand:
     Label:
       en: Command runs before docker compose starts
@@ -90,6 +92,7 @@ Parameters:
     Default: |
       # 在Docker Compose启动前执行此命令片段
       echo "before docker compose starts"
+      mkdir -p /home/admin/application/nginx/logs:/var/log/nginx/
   PostStartCommand:
     Label:
       en: Command runs after docker compose starts
