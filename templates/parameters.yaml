@@ -14,8 +14,10 @@ DockerComposeYaml: |-
       image: {{computenest::acrimage::nginx}}
       ports:
         - 80:80
-PreStartCommand: echo before start docker
-PostStartCommand: echo after start docker
+PreStartCommand: |
+  echo before start docker
+PostStartCommand: |
+  echo after start docker
 CommandTimeout: 300
 InstanceTypes:
   - ecs.c6.large

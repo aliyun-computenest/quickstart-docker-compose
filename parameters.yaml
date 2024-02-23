@@ -72,30 +72,32 @@ Parameters:
       zh-cn: DockerCompose.yaml的内容，请参考<a href='https://docs.docker.com/compose' target='_blank'>Docker官网文档</a>
     AssociationProperty: Code
     Default: |-
+      # 单个nginx服务实例
       services:
+        # 服务名
         hello_world:
+          # Docker镜像
           image: {{computenest::acrimage::nginx}}
+          # 端口映射
           ports:
             - 80:80
   PreStartCommand:
     Label:
       en: Command runs before docker compose starts
-      zh-cn: DockerCompose启动前执行的命令
+      zh-cn: DockerCompose启动前执行的命令片段
     Type: String
     AssociationProperty: Code
     Default: |
-      #!/bin/bash
-      # 在Docker Compose启动前执行此命令
+      # 在Docker Compose启动前执行此命令片段
       echo "before docker compose starts"
   PostStartCommand:
     Label:
       en: Command runs after docker compose starts
-      zh-cn: DockerCompose启动后执行的命令
+      zh-cn: DockerCompose启动后执行的命令片段
     Type: String
     AssociationProperty: Code
     Default: |
-      #!/bin/bash
-      # 在Docker Compose启动后执行此命令
+      # 在Docker Compose启动后执行此命令片段
       echo "after docker compose starts"
   CommandTimeout:
     Label:
@@ -116,14 +118,14 @@ Parameters:
       Parameters:
         Placeholder:
           Label:
-            en: Artifact placeholder
-            zh-cn: 部署物占位符
+            en: Artifact placeholder(prefix should be computenest::acrimage::)
+            zh-cn: 部署物占位符(前缀必须是computenest::acrimage::)
           Type: String
         ArtifactId:
           Type: String
           Label:
-            en: Docker image artifact id
-            zh-cn: Docker镜像部署物Id
+            en: Docker image artifact
+            zh-cn: Docker镜像部署物
           AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactId
           AssociationPropertyMetadata:
             IsSupplier: true
@@ -133,10 +135,10 @@ Parameters:
           Label:
             en: Docker image artifact version
             zh-cn: Docker镜像部署物版本
-          AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactIdVersion
-          AssociationPropertyMetadata:
-            IsSupplier: true
-            ArtifactId: ${ArtifactId}
+          # AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactIdVersion
+          # AssociationPropertyMetadata:
+          #   IsSupplier: true
+          #   ArtifactId: ${ArtifactId}
     Default:
     - Placeholder: computenest::acrimage::nginx
   Ports:
