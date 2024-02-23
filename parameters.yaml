@@ -71,6 +71,8 @@ Parameters:
       en: Content of docker-compose.yaml
       zh-cn: docker-compose.yaml的内容，请参考<a href='https://docs.docker.com/compose' target='_blank'>Docker官网文档</a>
     AssociationProperty: Code
+    AssociationPropertyMetadata:
+      Language: yaml
     Default: |-
       # 单个nginx服务实例
       services:
@@ -138,10 +140,10 @@ Parameters:
           Label:
             en: Docker image artifact version
             zh-cn: Docker镜像部署物版本
-          AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactIdVersion
-          AssociationPropertyMetadata:
-            IsSupplier: true
-            ArtifactId: ${.ArtifactId}
+          # AssociationProperty: ALIYUN::ComputeNest::Artifact::ArtifactIdVersion
+          # AssociationPropertyMetadata:
+          #   IsSupplier: true
+          #   ArtifactId: ${.ArtifactId}
     Default:
     - Placeholder: computenest::acrimage::nginx
   Ports:
