@@ -5,7 +5,7 @@ Parameters:
     Label: 管理员密码
     AssociationProperty: ALIYUN::ECS::Instance::Password
 DockerImageArtifacts:
-  - Placeholder: 'computenest::acrimage::nginx'
+  - Placeholder: '{{computenest::acrimage::nginx}}'
     ArtifactId: artifact-xxx
     ArtifactVersion: "1"
 DockerComposeYaml: |-

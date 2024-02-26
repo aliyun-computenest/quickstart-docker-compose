@@ -3,8 +3,8 @@ Service:
   DeployType: ros
   DeployMetadata:
     SupplierDeployMetadata:
-      ArtifactRelation:
-        'computenest::acrimage::nginx':
+      AcrImageArtifactRelation:
+        '{{computenest::acrimage::nginx}}':
           ArtifactId: artifact-xxx
           ArtifactVersion: 1
     TemplateConfigs:

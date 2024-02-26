@@ -123,8 +123,8 @@ Parameters:
       Parameters:
         Placeholder:
           Label:
-            en: Artifact placeholder(prefix should be computenest::acrimage::)
-            zh-cn: 部署物占位符(前缀必须是computenest::acrimage::)
+            en: Artifact placeholder(format: {{computenest::acrimage::your-image-name}})
+            zh-cn: 部署物占位符(格式{{computenest::acrimage::your-image-name}})
           Type: String
         ArtifactId:
           Type: String

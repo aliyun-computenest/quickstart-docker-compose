@@ -3,7 +3,7 @@ Service:
   DeployType: ros
   DeployMetadata:
     SupplierDeployMetadata:
-      ArtifactRelation:
+      AcrImageArtifactRelation:
       {%- for item in DockerImageArtifacts %}
         '{{ item.Placeholder }}':
           ArtifactId: {{ item.ArtifactId }}
