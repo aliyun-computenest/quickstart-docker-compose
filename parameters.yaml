@@ -146,7 +146,7 @@ Parameters:
             IsSupplier: true
             ArtifactId: ${.ArtifactId}
     Default:
-    - Placeholder: computenest::acrimage::nginx
+    - Placeholder: "{{computenest::acrimage::nginx}}"
   Ports:
     Type: Json
     Label:
