@@ -126,6 +126,7 @@ Parameters:
             en: Artifact placeholder(format: {{computenest::acrimage::your-image-name}})
             zh-cn: 部署物占位符(格式{{computenest::acrimage::your-image-name}})
           Type: String
+          AllowedPattern: '{{computenest::acrimage:.*}}'
         ArtifactId:
           Type: String
           Label:
