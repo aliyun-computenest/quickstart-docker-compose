@@ -74,10 +74,11 @@ Parameters:
     AssociationPropertyMetadata:
       Language: yaml
     Default: |-
+      # docker-compose.yaml中可以引用参数
       # 单个nginx服务实例
       services:
         # 服务名
-        hello_world:
+        nginx:
           # Docker镜像
           image: {{computenest::acrimage::nginx}}
           # 端口映射
@@ -92,9 +93,9 @@ Parameters:
     Type: String
     AssociationProperty: Code
     Default: |
-      # 在Docker Compose启动前执行此命令片段
+      # 在Docker Compose启动前执行此命令片段，命令中可以引用参数
       echo "before docker compose starts"
-      mkdir -p /home/admin/application/nginx/logs:/var/log/nginx/
+      mkdir -p /home/admin/application/nginx/logs
   PostStartCommand:
     Label:
       en: Command runs after docker compose starts
@@ -102,8 +103,9 @@ Parameters:
     Type: String
     AssociationProperty: Code
     Default: |
-      # 在Docker Compose启动后执行此命令片段
+      # 在Docker Compose启动后执行此命令片段，命令中可以引用参数
       echo "after docker compose starts"
+      echo ${AdminPassword}
   CommandTimeout:
     Label:
       en: Timeout of total command in seconds
