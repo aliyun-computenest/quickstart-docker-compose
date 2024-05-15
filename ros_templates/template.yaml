@@ -188,9 +188,18 @@ Resources:
           - |
             yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
             yum makecache fast
-            yum -y install docker-ce
+            yum -y install docker-ce jq
             systemctl enable docker
             systemctl start docker
+            sleep 10
+
+            dockerJson='{{ computenest::acr::dockerconfigjson }}'
+            decodeDockerJson=$(echo $dockerJson | base64 -d)
+            host=$(echo $decodeDockerJson | jq '.auths' | jq 'keys' | jq .[0])
+            username=$(echo $decodeDockerJson | jq ".auths.$host.username" | tr -d '"')
+            password=$(echo $decodeDockerJson | jq ".auths.$host.password" | tr -d '"')
+            host=$(echo $host | tr -d '"')
+            docker login $host --username=$username --password=$password
 
             mkdir -p /home/admin/application
             cat >/home/admin/application/docker-compose.yaml<<EOF

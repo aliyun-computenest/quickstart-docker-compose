@@ -11,13 +11,13 @@ Service:
       {%- endfor %}
     TemplateConfigs:
       - Name: ECS单机版
-        Url: 'templates/template.yaml'
+        Url: 'ros_templates/template.yaml'
         AllowedRegions: []
   ServiceType: private
   ServiceInfo:
     Locale: zh-CN
     ShortDescription: docker compose deploy
-    Image: 'icons/service_logo.png'
+    Image: 'resources/icons/service_logo.png'
     Name: DockerCompose部署单机版
   ShareType: Public
   ApprovalType: Manual
